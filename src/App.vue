@@ -11,54 +11,47 @@
         :collapse="isCollapse"
         @open="handleOpen"
         @close="handleClose"
+        @select="handleSelect"
       >
-        <router-link to="/">
-          <el-menu-item index="1">
+          <el-menu-item index="/">
             <el-icon><House /></el-icon>
             <template #title>Home</template>
           </el-menu-item>
-        </router-link>
-        <router-link to="/table">
-          <el-menu-item index="2">
+          <el-menu-item index="/table">
             <el-icon><DataAnalysis /></el-icon>
             <template #title>Task Table</template>
           </el-menu-item>
-        </router-link>
-        <router-link to="/calendar">
-          <el-menu-item index="3">
+          <el-menu-item index="/calendar">
             <el-icon><Calendar /></el-icon>
             <template #title>Calendar</template>
           </el-menu-item>
-        </router-link>
-        <router-link to="/setting">
-          <el-menu-item index="4">
+          <el-menu-item index="/setting">
             <el-icon><Setting /></el-icon>
             <template #title>Setting</template>
           </el-menu-item>
-        </router-link>
       </el-menu>
     </el-aside>
-    <el-main>
-      <router-view></router-view>
-    </el-main>
+    <router-view />
   </el-container>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import {
-  Document,
-  Menu as IconMenu,
-  Location,
-  Setting,
-} from '@element-plus/icons-vue'
+import { useRouter, useRoute } from 'vue-router'
 
 const isCollapse = ref(true)
+const router = useRouter()
+const route = useRoute()
 const handleOpen = (key: string, keyPath: string[]) => {
   console.log(key, keyPath)
 }
 const handleClose = (key: string, keyPath: string[]) => {
   console.log(key, keyPath)
+}
+const handleSelect = (index: string) => {
+  if (index !== route.path) {
+    router.push(index)
+  }
 }
 </script>
 

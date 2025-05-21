@@ -2,15 +2,15 @@
   <el-calendar ref="calendar">
     <template #header="{ date }">
       <span>Custom header content</span>
-      <span>{{ date }}</span>
+      <span style="font-size: 30px;">{{ date }}</span>
       <el-button-group>
-        <el-button size="small" @click="selectDate('prev-month')">
+        <el-button size="30" @click="selectDate('prev-month')">
           Previous Month
         </el-button>
-        <el-button size="small" @click="selectDate('today')">
-            Today
+        <el-button size="30" @click="selectDate('today')">
+          Today
         </el-button>
-        <el-button size="small" @click="selectDate('next-month')">
+        <el-button size="30" @click="selectDate('next-month')">
           Next Month
         </el-button>
       </el-button-group>
