@@ -1,9 +1,13 @@
 <template>
-  <el-container>
+  <el-container style="border: 3px solid black; padding: 15px 50px; border-radius: 25px; margin-top: 8%;">
+    <el-header style="text-align: center;">
+      <h1>DDL 任务汇总</h1>
+    </el-header>
     <el-main>
       <el-table 
       :data="sortedData" 
       style="width: 100%" 
+      height= "300"
       @cell-click="highlightColumn"
       size="large"
       >
@@ -21,7 +25,7 @@
             <el-button link type="primary" size="large" @click="onEdit(scope.$index, scope.row)">
               编辑
             </el-button>
-            <el-button link type="primary" size="large" @click="onDelete(scope.$index)">
+            <el-button link type="primary" size="large" @click="onClickDeleteBtn(scope.$index)">
               删除
             </el-button>
           </template>
@@ -34,6 +38,21 @@
       </el-button>
     </el-footer>
   </el-container>
+  <el-dialog
+    v-model="dialogVisible"
+    title="Warning"
+    width="500"
+  >
+    <span>你确认要删除这一行数据吗？</span>
+    <template #footer>
+      <div class="dialog-footer">
+        <el-button @click="dialogVisible = false">取消</el-button>
+        <el-button type="primary" @click="deleteRowData">
+          确认
+        </el-button>
+      </div>
+    </template>
+  </el-dialog>
   <el-dialog v-model="editDialogVisible" title="Edit Row" width="30%">
     <el-form :model="editForm">
       <el-form-item label="Date">
@@ -68,6 +87,7 @@
 <script lang="ts" setup>
 import { ref, reactive, computed } from 'vue'
 import { ElNotification } from 'element-plus'
+const dialogVisible = ref(false)
 
 const tableData = ref([
   {
@@ -137,6 +157,7 @@ const editForm = reactive({
   tag: ''
 })
 let editIndex = -1
+let deleteIndex = -1
 function isValidDateFormat(dateString: string) {
   const regex = /^\d{4}-\d{2}-\d{2}$/;
   if (!regex.test(dateString)) {
@@ -170,6 +191,17 @@ function onAddRowData() {
   editDialogVisible.value = true
 }
 
+function deleteRowData() {
+  dialogVisible.value = false
+  tableData.value.splice(deleteIndex, 1)
+  ElNotification({
+    title: 'Success',
+    message: '成功删除一行数据',
+    type: 'success',
+    duration: 1000
+  })
+}
+
 function saveEdit() {
   if (!isValidDateFormat(editForm.date)) {
     ElNotification({
@@ -187,10 +219,18 @@ function saveEdit() {
     tableData.value.push({ ...editForm })
   }
   editDialogVisible.value = false
+  ElNotification({
+    title: 'Success',
+    message: '保存成功',
+    type: 'success',
+    duration: 1000
+  })
 }
 
-function onDelete(index: number) {
-  tableData.value.splice(index, 1)
+function onClickDeleteBtn(index: number) {
+  dialogVisible.value = true
+  // tableData.value.splice(index, 1)
+  deleteIndex = index
 }
 
 const highlightedColumn = ref<string | null>(null)

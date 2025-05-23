@@ -69,7 +69,7 @@ const showTaskDetail = (date: string) => {
      <b>类型：</b>${info.type}<br>
      <b>日期：</b>${date}<br>
      <b>细节：</b>${info.detail}<br>
-     <b>完成度：</b>${info.isdone? "已完成": "未完成"}`,
+     <b>完成度：</b>${info.isdone ? "已完成" : "未完成"}`,
     {
       dangerouslyUseHTMLString: true,
       confirmButtonText: '确定'

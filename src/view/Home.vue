@@ -1,43 +1,33 @@
 <template>
-    <el-badge :value="12" class="item">
-        <el-button>comments</el-button>
-    </el-badge>
-    <el-badge :value="3" class="item">
-        <el-button>replies</el-button>
-    </el-badge>
-    <el-badge :value="1" class="item" type="primary">
-        <el-button>comments</el-button>
-    </el-badge>
-    <el-badge :value="2" class="item" type="warning">
-        <el-button>replies</el-button>
-    </el-badge>
-    <el-badge :value="1" class="item" color="green">
-        <el-button>custom background</el-button>
-    </el-badge>
-    <el-button plain @click="dialogVisible = true">
-        Click to open the Dialog
-    </el-button>
-
-    <el-dialog v-model="dialogVisible" title="Tips" width="500">
-        <span>This is a message</span>
-        <template #footer>
-            <div class="dialog-footer">
-                <el-button @click="dialogVisible = false">Cancel</el-button>
-                <el-button type="primary" @click="dialogVisible = false">
-                    Confirm
-                </el-button>
-            </div>
-        </template>
-    </el-dialog>
+    <div class="block text-center" style="width: 80%; padding: 20px 40px; margin-left: 0%;">
+        <h1 style="text-align: center; font-size: xx-large;">
+            网站首页
+        </h1>
+        <br>
+        <el-carousel height="300px" interval="1500" style="border-radius: 30px;">
+            <el-carousel-item v-for="item in 4" :key="item">
+                <h3 class="small justify-center" text="2xl">hhhh{{ item }}</h3>
+                <p style="text-align: center;">nihao</p>
+            </el-carousel-item>
+        </el-carousel>
+    </div>
 </template>
-<script lang="ts" setup>
-import { ref } from 'vue'
 
-const dialogVisible = ref(false)
-</script>
 <style scoped>
-.item {
-    margin-top: 10px;
-    margin-right: 40px;
+
+.el-carousel__item h3 {
+    color: #475669;
+    opacity: 0.75;
+    line-height: 150px;
+    margin: 0;
+    text-align: center;
+}
+
+.el-carousel__item:nth-child(2n) {
+    background-color: #99a9bf;
+}
+
+.el-carousel__item:nth-child(2n + 1) {
+    background-color: #d3dce6;
 }
 </style>
