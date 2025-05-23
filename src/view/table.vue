@@ -15,11 +15,10 @@
           :sort-orders="['ascending', 'descending', null]" :sort-by="['date']" :order="sortOrder"
           @header-click="toggleSort" />
         <el-table-column prop="name" label="Name" width="120" :class-name="getColumnClass('name')" />
-        <el-table-column prop="state" label="State" width="120" :class-name="getColumnClass('state')" />
-        <el-table-column prop="city" label="City" width="120" :class-name="getColumnClass('city')" />
-        <el-table-column prop="address" label="Address" width="400" :class-name="getColumnClass('address')" />
-        <el-table-column prop="zip" label="Zip" width="120" :class-name="getColumnClass('zip')" />
-        <el-table-column prop="tag" label="Tag" width="120" :class-name="getColumnClass('tag')" />
+        <el-table-column prop="priority" label="Priority" width="120" :class-name="getColumnClass('priority')" />
+        <el-table-column prop="type" label="Type" width="120" :class-name="getColumnClass('type')" />
+        <el-table-column prop="detail" label="Detail" width="400" :class-name="getColumnClass('detail')" />
+        <el-table-column prop="isdone" label="Isdone" width="120" :class-name="getColumnClass('isdone')" />
         <el-table-column fixed="right" label="操作" min-width="200">
           <template #default="scope">
             <el-button link type="primary" size="large" @click="onEdit(scope.$index, scope.row)">
@@ -61,20 +60,17 @@
       <el-form-item label="Name">
         <el-input v-model="editForm.name" />
       </el-form-item>
-      <el-form-item label="State">
-        <el-input v-model="editForm.state" />
+      <el-form-item label="Priority">
+        <el-input v-model="editForm.priority" />
       </el-form-item>
-      <el-form-item label="City">
-        <el-input v-model="editForm.city" />
+      <el-form-item label="Type">
+        <el-input v-model="editForm.type" />
       </el-form-item>
-      <el-form-item label="Address">
-        <el-input v-model="editForm.address" />
+      <el-form-item label="Detail">
+        <el-input v-model="editForm.detail" />
       </el-form-item>
-      <el-form-item label="Zip">
-        <el-input v-model="editForm.zip" />
-      </el-form-item>
-      <el-form-item label="Tag">
-        <el-input v-model="editForm.tag" />
+      <el-form-item label="Isdone">
+        <el-input v-model="editForm.isdone" />
       </el-form-item>
     </el-form>
     <template #footer>
@@ -87,46 +83,29 @@
 <script lang="ts" setup>
 import { ref, reactive, computed } from 'vue'
 import { ElNotification } from 'element-plus'
+
+interface TaskTableInfo {
+  name: string
+  priority: 'low' | 'medium' | 'high'
+  type: string
+  detail: string
+  isdone: boolean
+  date: string
+}
+
 const dialogVisible = ref(false)
 
-const tableData = ref([
+const tableData = ref<TaskTableInfo[]>([
   {
-    date: '2016-05-03',
     name: 'Tom',
-    state: 'California',
-    city: 'Los Angeles',
-    address: 'No. 189, Grove St, Los Angeles',
-    zip: 'CA 90036',
-    tag: 'Home',
-  },
-  {
-    date: '2016-05-02',
-    name: 'Tom',
-    state: 'California',
-    city: 'Los Angeles',
-    address: 'No. 189, Grove St, Los Angeles',
-    zip: 'CA 90036',
-    tag: 'Office',
-  },
-  {
-    date: '2016-05-04',
-    name: 'Tom',
-    state: 'California',
-    city: 'Los Angeles',
-    address: 'No. 189, Grove St, Los Angeles',
-    zip: 'CA 90036',
-    tag: 'Home',
-  },
-  {
-    date: '2016-05-01',
-    name: 'Tom',
-    state: 'California',
-    city: 'Los Angeles',
-    address: 'No. 189, Grove St, Los Angeles',
-    zip: 'CA 90036',
-    tag: 'Office',
+    priority: 'medium',
+    type: 'Personal',
+    detail: 'Go to gym',
+    isdone: false,
+    date: '2016-05-03'
   }
 ])
+
 
 const sortOrder = ref<'ascending' | 'descending' | null>(null)
 const sortedData = computed(() => {
@@ -147,15 +126,15 @@ function dateSortMethod(a: any, b: any) {
 }
 
 const editDialogVisible = ref(false)
-const editForm = reactive({
-  date: '',
+const editForm = reactive<TaskTableInfo>({
   name: '',
-  state: '',
-  city: '',
-  address: '',
-  zip: '',
-  tag: ''
+  priority: 'low',
+  type: '',
+  detail: '',
+  isdone: false,
+  date: ''
 })
+
 let editIndex = -1
 let deleteIndex = -1
 function isValidDateFormat(dateString: string) {
@@ -179,13 +158,12 @@ function onEdit(index: number, row: any) {
 
 function onAddRowData() {
   Object.assign(editForm, {
-    date: '',
     name: '',
-    state: '',
-    city: '',
-    address: '',
-    zip: '',
-    tag: ''
+    priority: 'low',
+    type: '',
+    detail: '',
+    isdone: false,
+    date: ''
   })
   editIndex = -1
   editDialogVisible.value = true
@@ -229,7 +207,6 @@ function saveEdit() {
 
 function onClickDeleteBtn(index: number) {
   dialogVisible.value = true
-  // tableData.value.splice(index, 1)
   deleteIndex = index
 }
 
