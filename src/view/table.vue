@@ -4,13 +4,7 @@
       <h1>DDL 任务汇总</h1>
     </el-header>
     <el-main>
-      <el-table 
-      :data="sortedData" 
-      style="width: 100%" 
-      height= "300"
-      @cell-click="highlightColumn"
-      size="large"
-      >
+      <el-table :data="sortedData" style="width: 100%" height="300" @cell-click="highlightColumn" size="large">
         <el-table-column fixed prop="date" label="Date" width="150" :sortable="true" :sort-method="dateSortMethod"
           :sort-orders="['ascending', 'descending', null]" :sort-by="['date']" :order="sortOrder"
           @header-click="toggleSort" />
@@ -37,11 +31,7 @@
       </el-button>
     </el-footer>
   </el-container>
-  <el-dialog
-    v-model="dialogVisible"
-    title="Warning"
-    width="500"
-  >
+  <el-dialog v-model="dialogVisible" title="Warning" width="500">
     <span>你确认要删除这一行数据吗？</span>
     <template #footer>
       <div class="dialog-footer">
@@ -52,7 +42,7 @@
       </div>
     </template>
   </el-dialog>
-  <el-dialog v-model="editDialogVisible" title="Edit Row" width="30%">
+  <el-dialog v-model="editDialogVisible" title="数据编辑" width="30%">
     <el-form :model="editForm">
       <el-form-item label="Date">
         <el-input v-model="editForm.date" />
@@ -61,7 +51,11 @@
         <el-input v-model="editForm.name" />
       </el-form-item>
       <el-form-item label="Priority">
-        <el-input v-model="editForm.priority" />
+        <el-select v-model="editForm.priority">
+          <el-option label="低" value="low" />
+          <el-option label="中" value="medium" />
+          <el-option label="高" value="high" />
+        </el-select>
       </el-form-item>
       <el-form-item label="Type">
         <el-input v-model="editForm.type" />
@@ -70,7 +64,11 @@
         <el-input v-model="editForm.detail" />
       </el-form-item>
       <el-form-item label="Isdone">
-        <el-input v-model="editForm.isdone" />
+        <el-select v-model="editForm.isdone">
+          <el-option label="已完成" value="completed" />
+          <el-option label="正在做" value="in-progress" />
+          <el-option label="未完成" value="not-started" />
+        </el-select>
       </el-form-item>
     </el-form>
     <template #footer>
@@ -86,10 +84,10 @@ import { ElNotification } from 'element-plus'
 
 interface TaskTableInfo {
   name: string
-  priority: 'low' | 'medium' | 'high'
+  priority: "low" | "medium" | "high"
   type: string
   detail: string
-  isdone: boolean
+  isdone: "not-started" | "in-progress" | "completed"
   date: string
 }
 
@@ -101,7 +99,7 @@ const tableData = ref<TaskTableInfo[]>([
     priority: 'medium',
     type: 'Personal',
     detail: 'Go to gym',
-    isdone: false,
+    isdone: 'not-started',
     date: '2016-05-03'
   }
 ])
@@ -128,10 +126,10 @@ function dateSortMethod(a: any, b: any) {
 const editDialogVisible = ref(false)
 const editForm = reactive<TaskTableInfo>({
   name: '',
-  priority: 'low',
+  priority: 'medium',
   type: '',
   detail: '',
-  isdone: false,
+  isdone: 'not-started',
   date: ''
 })
 
@@ -159,10 +157,10 @@ function onEdit(index: number, row: any) {
 function onAddRowData() {
   Object.assign(editForm, {
     name: '',
-    priority: 'low',
+    priority: 'medium',
     type: '',
     detail: '',
-    isdone: false,
+    isdone: 'not-started',
     date: ''
   })
   editIndex = -1
@@ -183,9 +181,9 @@ function deleteRowData() {
 function saveEdit() {
   if (!isValidDateFormat(editForm.date)) {
     ElNotification({
-      title: 'Notice',
+      title: 'Warning',
       message: "日期格式不正确",
-      type: 'error',
+      type: 'warning',
       duration: 1000
     })
     editDialogVisible.value = false

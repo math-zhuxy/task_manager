@@ -1,12 +1,8 @@
 <template>
   <el-container>
-    <el-aside>
-      <el-radio-group v-model="isCollapse" style="margin-bottom: 20px">
-        <el-radio-button :value="false">expand</el-radio-button>
-        <el-radio-button :value="true">collapse</el-radio-button>
-      </el-radio-group>
-      <el-menu default-active="1" class="el-menu-vertical-demo" :collapse="isCollapse" @open="handleOpen"
-        @close="handleClose" @select="handleSelect">
+    <el-aside width="250px">
+      <br><br>
+      <el-menu default-active="1" class="el-menu-vertical-demo" @select="handleSelect">
         <el-menu-item index="/">
           <el-icon>
             <House />
@@ -40,16 +36,9 @@
 <script lang="ts" setup>
 import { provide, ref } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-
-const isCollapse = ref(true)
 const router = useRouter()
 const route = useRoute()
-const handleOpen = (key: string, keyPath: string[]) => {
-  console.log(key, keyPath)
-}
-const handleClose = (key: string, keyPath: string[]) => {
-  console.log(key, keyPath)
-}
+
 const handleSelect = (index: string) => {
   if (index !== route.path) {
     router.push(index)
@@ -61,7 +50,7 @@ interface TaskTableInfo {
   priority: "low" | "medium" | "high"
   type: string
   detail: string
-  isdone: boolean
+  isdone: "not-started" | "in-progress" | "completed"
   date: string
 }
 
@@ -70,7 +59,7 @@ interface TaskCalendarInfo {
   priority: "low" | "medium" | "high"
   type: string
   detail: string
-  isdone: boolean
+  isdone: "not-started" | "in-progress" | "completed"
 }
 
 const TaskDataList = ref<TaskTableInfo[]>([
@@ -79,7 +68,7 @@ const TaskDataList = ref<TaskTableInfo[]>([
     priority: "low",
     type: "任意",
     detail: "展示一个任务有哪些字段",
-    isdone: false,
+    isdone: 'not-started',
     date: "2025-07-23"
   }
 ])
@@ -88,9 +77,17 @@ const TaskDataMap = ref<Map<string, TaskCalendarInfo>>(new Map())
 TaskDataMap.value.set("2025-07-23", {
   name: "示例任务",
   priority: "low",
-  type: "任意",
+  type: "Any",
   detail: "展示一个任务有哪些字段",
-  isdone: false
+  isdone: 'not-started'
+})
+
+TaskDataMap.value.set("2025-07-24", {
+  name: "示例任务",
+  priority: "low",
+  type: "Any",
+  detail: "展示一个任务有哪些字段",
+  isdone: 'in-progress'
 })
 
 provide("TaskDataList", TaskDataList)
@@ -98,8 +95,9 @@ provide("TaskDataMap", TaskDataMap)
 </script>
 
 <style scoped>
-.el-menu-vertical-demo:not(.el-menu--collapse) {
-  width: 200px;
+
+.el-menu-vertical-demo {
+  width: 180px;
   min-height: 400px;
 }
 

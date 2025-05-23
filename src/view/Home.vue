@@ -4,7 +4,7 @@
             网站首页
         </h1>
         <br>
-        <el-carousel height="300px" interval="1500" style="border-radius: 30px;">
+        <el-carousel height="300px" interval=1500 style="border-radius: 30px;">
             <el-carousel-item v-for="item in 4" :key="item">
                 <h3 class="small justify-center" text="2xl">hhhh{{ item }}</h3>
                 <p style="text-align: center;">nihao</p>
