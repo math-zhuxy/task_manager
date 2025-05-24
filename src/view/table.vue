@@ -9,7 +9,7 @@
         <el-table-column fixed prop="date" label="日期" width="150" :sortable="true" :sort-method="dateSortMethod"
           :sort-orders="['ascending', 'descending', null]" :sort-by="['date']" :order="sortOrder"
           @header-click="toggleSort" />
-        <el-table-column prop="name" label="名称" width="120" :class-name="getColumnClass('name')" />
+        <el-table-column prop="name" label="名称" width="160" :class-name="getColumnClass('name')" />
         <el-table-column prop="priority" label="优先级" width="120" :class-name="getColumnClass('priority')" />
         <el-table-column prop="type" label="种类" width="120" :class-name="getColumnClass('type')" />
         <el-table-column prop="detail" label="具体细节" width="400" :class-name="getColumnClass('detail')" />

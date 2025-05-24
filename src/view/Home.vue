@@ -5,8 +5,8 @@
         </h1>
         <el-carousel height="400px" interval=1500 style="border-radius: 15px;">
             <el-carousel-item v-for="item in 4" :key="item">
-                <h1 class="small justify-center">{{ TextContent[item - 1].head }}</h1>
-                <p>{{ TextContent[item - 1].content }}</p>
+                <p style="font-size: 50px;">{{ TextContent[item - 1].head }}</p>
+                <p style="font-size: 15px;">{{ TextContent[item - 1].content }}</p>
             </el-carousel-item>
         </el-carousel>
     </div>
@@ -16,20 +16,20 @@
 
 const TextContent = [
     {
-        head: "主页",
+        head: "Home",
         content: "主页"
     },
     {
-        head: "日历",
-        content: "任务日历"
-    },
-    {
-        head: "列表",
+        head: "Task Table",
         content: "任务列表"
     },
     {
-        head: "设置",
-        content: "任务设置"
+        head: "Calendar",
+        content: "日历"
+    },
+    {
+        head: "Setting",
+        content: "设置"
     }
 ]
 
@@ -39,7 +39,6 @@ const TextContent = [
 .el-carousel__item {
     color: #475669;
     opacity: 0.75;
-    line-height: 150px;
     margin: 0;
     text-align: center;
 }

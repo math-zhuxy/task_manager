@@ -2,11 +2,18 @@
   <el-container>
     <el-aside style="margin-left: 1%; margin-right: 5%;" width="auto">
       <el-card style="cursor: pointer; margin-top: 16%; border-radius: 15px;" @click="backToMainPage" shadow="hover">
-        <div style="display: flex; align-items: center; margin-left: 6%; gap: 14px; ">
+        <div style="display: flex; align-items: center; margin-left: 1%; gap: 14px; ">
           <el-icon size="30px">
             <Coffee />
           </el-icon>
           <span>Made By ZXY</span>
+          <span style="display: flex; align-items: center;">
+            <el-tooltip content="更多内容请查看https://github.com/math-zhuxy" placement="right" width="200">
+              <el-icon size="25px">
+                <Warning />
+              </el-icon>
+            </el-tooltip>
+          </span>
         </div>
       </el-card>
       <br>

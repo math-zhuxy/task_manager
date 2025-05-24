@@ -24,7 +24,7 @@
         <div v-if="infoMap?.get(data.day)" style="font-size: 12px; cursor: pointer;">
           {{ infoMap.get(data.day)?.name }}
           <br>
-          {{ TranslateInfoCN(infoMap.get(data.day)?.priority, 'priority') }}
+          优先级：{{ TranslateInfoCN(infoMap.get(data.day)?.priority, 'priority') }}
           <br>
           {{ infoMap.get(data.day)?.type }}
         </div>
