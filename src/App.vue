@@ -1,7 +1,10 @@
 <template>
   <el-container>
-    <el-aside width="250px">
-      <br><br>
+    <el-aside style="margin-left: 1%; margin-right: 5%;" width="auto">
+      <el-card style="width: auto; cursor: pointer;">
+        Hover
+      </el-card>
+      <br>
       <el-menu default-active="1" class="el-menu-vertical-demo" @select="handleSelect">
         <el-menu-item index="/">
           <el-icon>
@@ -95,10 +98,9 @@ provide("TaskDataMap", TaskDataMap)
 </script>
 
 <style scoped>
-
 .el-menu-vertical-demo {
-  width: 180px;
-  min-height: 400px;
+  width: 225px;
+  min-height: 600px;
 }
 
 a {

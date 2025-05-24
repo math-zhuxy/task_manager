@@ -1,10 +1,10 @@
 <template>
-  <el-container style="border: 3px solid black; padding: 15px 50px; border-radius: 25px; margin-top: 8%;">
-    <el-header style="text-align: center;">
-      <h1>DDL 任务汇总</h1>
+  <el-container style="border: 2px solid lightgray; padding: 15px 10px; margin-top: 5%; max-width: 70%;">
+    <el-header style="text-align: center; margin-bottom: 2%;">
+      <h1 style="font-size: xx-large;">DDL 任务汇总</h1>
     </el-header>
     <el-main>
-      <el-table :data="sortedData" style="width: 100%" height="300" @cell-click="highlightColumn" size="large">
+      <el-table :data="sortedData" style="width: 100%; font-size: large;" height="400" @cell-click="highlightColumn" size="large">
         <el-table-column fixed prop="date" label="Date" width="150" :sortable="true" :sort-method="dateSortMethod"
           :sort-orders="['ascending', 'descending', null]" :sort-by="['date']" :order="sortOrder"
           @header-click="toggleSort" />
@@ -12,13 +12,13 @@
         <el-table-column prop="priority" label="Priority" width="120" :class-name="getColumnClass('priority')" />
         <el-table-column prop="type" label="Type" width="120" :class-name="getColumnClass('type')" />
         <el-table-column prop="detail" label="Detail" width="400" :class-name="getColumnClass('detail')" />
-        <el-table-column prop="isdone" label="Isdone" width="120" :class-name="getColumnClass('isdone')" />
+        <el-table-column prop="isdone" label="Isdone" width="160" :class-name="getColumnClass('isdone')" />
         <el-table-column fixed="right" label="操作" min-width="200">
           <template #default="scope">
-            <el-button link type="primary" size="large" @click="onEdit(scope.$index, scope.row)">
+            <el-button link type="primary" style="font-size: large;" @click="onEdit(scope.$index, scope.row)">
               编辑
             </el-button>
-            <el-button link type="primary" size="large" @click="onClickDeleteBtn(scope.$index)">
+            <el-button link type="primary" style="font-size: large;" @click="onClickDeleteBtn(scope.$index)">
               删除
             </el-button>
           </template>
@@ -26,7 +26,7 @@
       </el-table>
     </el-main>
     <el-footer>
-      <el-button type="primary" style="margin: 16px 0;" @click="onAddRowData">
+      <el-button type="primary" style="font-size: large; padding: 20px 15px; border-radius: 10px;" @click="onAddRowData">
         新增
       </el-button>
     </el-footer>
@@ -94,6 +94,54 @@ interface TaskTableInfo {
 const dialogVisible = ref(false)
 
 const tableData = ref<TaskTableInfo[]>([
+  {
+    name: 'Tom',
+    priority: 'medium',
+    type: 'Personal',
+    detail: 'Go to gym',
+    isdone: 'not-started',
+    date: '2016-05-03'
+  },
+  {
+    name: 'Tom',
+    priority: 'medium',
+    type: 'Personal',
+    detail: 'Go to gym',
+    isdone: 'not-started',
+    date: '2016-05-03'
+  },
+  {
+    name: 'Tom',
+    priority: 'medium',
+    type: 'Personal',
+    detail: 'Go to gym',
+    isdone: 'not-started',
+    date: '2016-05-03'
+  },
+  {
+    name: 'Tom',
+    priority: 'medium',
+    type: 'Personal',
+    detail: 'Go to gym',
+    isdone: 'not-started',
+    date: '2016-05-03'
+  },
+  {
+    name: 'Tom',
+    priority: 'medium',
+    type: 'Personal',
+    detail: 'Go to gym',
+    isdone: 'not-started',
+    date: '2016-05-03'
+  },
+  {
+    name: 'Tom',
+    priority: 'medium',
+    type: 'Personal',
+    detail: 'Go to gym',
+    isdone: 'not-started',
+    date: '2016-05-03'
+  },
   {
     name: 'Tom',
     priority: 'medium',

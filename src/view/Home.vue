@@ -1,12 +1,11 @@
 <template>
-    <div class="block text-center" style="width: 80%; padding: 20px 40px; margin-left: 0%;">
+    <div class="block text-center" style="width: 70%;">
         <h1 style="text-align: center; font-size: xx-large;">
             网站首页
         </h1>
-        <br>
-        <el-carousel height="300px" interval=1500 style="border-radius: 30px;">
+        <el-carousel height="400px" interval=1500 style="border-radius: 15px;">
             <el-carousel-item v-for="item in 4" :key="item">
-                <h3 class="small justify-center" text="2xl">hhhh{{ item }}</h3>
+                <h1 class="small justify-center">hhhh{{ item }}</h1>
                 <p style="text-align: center;">nihao</p>
             </el-carousel-item>
         </el-carousel>
@@ -14,7 +13,7 @@
 </template>
 
 <style scoped>
-.el-carousel__item h3 {
+.el-carousel__item {
     color: #475669;
     opacity: 0.75;
     line-height: 150px;

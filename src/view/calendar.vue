@@ -1,5 +1,5 @@
 <template>
-  <el-calendar ref="calendar">
+  <el-calendar ref="calendar" style="margin-top: 5%; max-width: 70%;">
     <template #header="{ date }">
       <span style="font-size: 40px;">Task Calendar</span>
       <span style="font-size: 30px;">{{ date }}</span>
