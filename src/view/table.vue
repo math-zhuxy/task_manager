@@ -1,10 +1,16 @@
 <template>
-  <el-container style="border: 2px solid lightgray; padding: 15px 10px; margin-top: 5%; max-width: 70%;">
+  <el-container style="border: 2px solid lightgray; padding: 15px 10px; margin-top: 4%; max-width: 90%;">
     <el-header style="text-align: center; margin-bottom: 2%;">
       <h1 style="font-size: xx-large;">DDL 任务汇总</h1>
     </el-header>
     <el-main>
-      <el-table :data="sortedData" style="width: 100%; font-size: large;" height="400" @cell-click="highlightColumn" size="large">
+      <el-table 
+        :data="sortedData" 
+        style="width: 100%; font-size: large;" 
+        height="400" 
+        @cell-click="highlightColumn"
+        size="large"
+      >
         <el-table-column fixed prop="date" label="Date" width="150" :sortable="true" :sort-method="dateSortMethod"
           :sort-orders="['ascending', 'descending', null]" :sort-by="['date']" :order="sortOrder"
           @header-click="toggleSort" />
@@ -26,8 +32,9 @@
       </el-table>
     </el-main>
     <el-footer>
-      <el-button type="primary" style="font-size: large; padding: 20px 15px; border-radius: 10px;" @click="onAddRowData">
-        新增
+      <el-button type="primary" style="font-size: large; padding: 20px 15px; border-radius: 10px;"
+        @click="onAddRowData">
+        新增任务
       </el-button>
     </el-footer>
   </el-container>
@@ -81,6 +88,7 @@
 <script lang="ts" setup>
 import { ref, reactive, computed } from 'vue'
 import { ElNotification } from 'element-plus'
+
 
 interface TaskTableInfo {
   name: string

@@ -1,8 +1,11 @@
 <template>
   <el-container>
     <el-aside style="margin-left: 1%; margin-right: 5%;" width="auto">
-      <el-card style="width: auto; cursor: pointer;">
-        Hover
+      <el-card style="cursor: pointer; margin-top: 16%; border-radius: 15px;" @click="backToMainPage">
+        <div style="display: flex; align-items: center; margin-left: 6%; gap: 14px; ">
+          <el-icon size="30px"><Coffee /></el-icon>
+          <span>Made By ZXY</span>
+        </div>
       </el-card>
       <br>
       <el-menu default-active="1" class="el-menu-vertical-demo" @select="handleSelect">
@@ -32,7 +35,9 @@
         </el-menu-item>
       </el-menu>
     </el-aside>
-    <router-view />
+    <el-main>
+      <router-view />
+    </el-main>
   </el-container>
 </template>
 
@@ -41,6 +46,10 @@ import { provide, ref } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 const router = useRouter()
 const route = useRoute()
+
+function backToMainPage(){
+  router.push("/")
+}
 
 const handleSelect = (index: string) => {
   if (index !== route.path) {
@@ -100,7 +109,7 @@ provide("TaskDataMap", TaskDataMap)
 <style scoped>
 .el-menu-vertical-demo {
   width: 225px;
-  min-height: 600px;
+  min-height: 560px;
 }
 
 a {

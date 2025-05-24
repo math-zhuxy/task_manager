@@ -1,5 +1,5 @@
 <template>
-  <el-descriptions title="简介" direction="vertical" border size="large" style="margin-top: 20px;">
+  <el-descriptions title="简介" direction="vertical" border size="large" style="margin-top: 20px; max-width: 90%;">
     <el-descriptions-item :rowspan="2" :width="140" label="Photo" align="center">
       <el-image style="width: 100px; height: 100px"
         src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" />
