@@ -4,7 +4,7 @@
       <h1 style="font-size: xx-large;">DDL 任务汇总</h1>
     </el-header>
     <el-main>
-      <el-table :data="sortedData" style="width: 100%; font-size: large;" height="400" @cell-click="highlightColumn"
+      <el-table :data="sortedData" style="width: 100%; font-size: medium;" height="400" @cell-click="highlightColumn"
         size="large">
         <el-table-column fixed prop="date" label="日期" width="150" :sortable="true" :sort-method="dateSortMethod"
           :sort-orders="['ascending', 'descending', null]" :sort-by="['date']" :order="sortOrder"
@@ -16,10 +16,10 @@
         <el-table-column prop="isdone" label="完成度" width="160" :class-name="getColumnClass('isdone')" />
         <el-table-column fixed="right" label="操作" min-width="200">
           <template #default="scope">
-            <el-button link type="primary" style="font-size: large;" @click="onEdit(scope.$index, scope.row)">
+            <el-button link type="primary" style="font-size: medium;" @click="onEdit(scope.$index, scope.row)">
               编辑
             </el-button>
-            <el-button link type="primary" style="font-size: large;" @click="onClickDeleteBtn(scope.$index)">
+            <el-button link type="primary" style="font-size: medium;" @click="onClickDeleteBtn(scope.$index)">
               删除
             </el-button>
           </template>
@@ -47,10 +47,10 @@
   <el-dialog v-model="editDialogVisible" title="数据编辑" width="30%">
     <el-form :model="editForm">
       <el-form-item label="日期">
-        <el-input v-model="editForm.date" placeholder="E.G: 2025-01-01"/>
+        <el-input v-model="editForm.date" placeholder="E.G: 2025-01-01" suffix-icon="Calendar"/>
       </el-form-item>
       <el-form-item label="名称">
-        <el-input v-model="editForm.name"  maxlength="10" show-word-limit/>
+        <el-input v-model="editForm.name" maxlength="10" show-word-limit />
       </el-form-item>
       <el-form-item label="优先级">
         <el-select v-model="editForm.priority">
@@ -60,10 +60,10 @@
         </el-select>
       </el-form-item>
       <el-form-item label="种类">
-        <el-input v-model="editForm.type" maxlength="10" show-word-limit/>
+        <el-input v-model="editForm.type" maxlength="10" show-word-limit />
       </el-form-item>
       <el-form-item label="任务细节">
-        <el-input v-model="editForm.detail" clearable/>
+        <el-input v-model="editForm.detail" clearable />
       </el-form-item>
       <el-form-item label="完成度">
         <el-select v-model="editForm.isdone">
@@ -99,11 +99,13 @@ const sortedData = computed(() => {
     return sortOrder.value === 'ascending' ? d1 - d2 : d2 - d1
   })
 })
+
 function toggleSort() {
   if (sortOrder.value === 'ascending') sortOrder.value = 'descending'
   else if (sortOrder.value === 'descending') sortOrder.value = null
   else sortOrder.value = 'ascending'
 }
+
 function dateSortMethod(a: any, b: any) {
   return new Date(a.date).getTime() - new Date(b.date).getTime()
 }
@@ -157,7 +159,6 @@ function onAddRowData() {
 
 function deleteRowData() {
   dialogVisible.value = false
-  // tableData?.value.splice(deleteIndex, 1)
   if (ChgAddDelData) {
     ChgAddDelData('de', deleteIndex, editForm)
   }
@@ -180,7 +181,7 @@ function saveEdit() {
     editDialogVisible.value = false
     return
   }
-  if(editForm.detail.length === 0 || editForm.name.length === 0 || editForm.detail.length === 0) {
+  if (editForm.detail.length === 0 || editForm.name.length === 0 || editForm.detail.length === 0) {
     ElNotification({
       title: 'Error',
       message: "请将任务内容补充完整",

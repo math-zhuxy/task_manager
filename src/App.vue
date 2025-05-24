@@ -90,7 +90,7 @@ const TaskDataList = ref<TaskTableInfo[]>([
     type: "任意",
     detail: "展示一个任务有哪些字段",
     isdone: 'not-started',
-    date: "2025-07-23"
+    date: "2025-05-23"
   },
   {
     name: "示例任务",
@@ -98,12 +98,12 @@ const TaskDataList = ref<TaskTableInfo[]>([
     type: "Any",
     detail: "展示一个任务有哪些字段",
     isdone: 'in-progress',
-    date: "2025-07-24"
+    date: "2025-05-24"
   }
 ])
 
 const TaskDataMap = ref<Map<string, TaskCalendarInfo>>(new Map())
-TaskDataMap.value.set("2025-07-23", {
+TaskDataMap.value.set("2025-05-23", {
   name: "示例任务",
   priority: "medium",
   type: "任意",
@@ -111,7 +111,7 @@ TaskDataMap.value.set("2025-07-23", {
   isdone: 'not-started'
 })
 
-TaskDataMap.value.set("2025-07-24", {
+TaskDataMap.value.set("2025-05-24", {
   name: "示例任务",
   priority: "low",
   type: "Any",
@@ -136,7 +136,6 @@ function ChangeOrAddOrDeleteData(
       const delete_data = TaskDataList.value[index]
       TaskDataMap.value.delete(delete_data.date)
       TaskDataList.value.splice(index, 1)
-      console.log("delete date", delete_data.date)
       return
     case 'add':
       TaskDataList.value.push(data)
@@ -156,9 +155,41 @@ export type ChangeOrAddOrDeleteData = (
   data?: TaskTableInfo
 ) => void;
 
+export interface INFOMATION{
+  avatar_url: string,
+  user_name: string,
+  email_addr: string,
+  location: string,
+  tags: string[],
+  biology: string,
+}
+
+const PersonnalInfo = ref<INFOMATION>({
+  avatar_url: "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",
+  user_name: "用户",
+  email_addr: "example@qq.com",
+  location: "北京",
+  tags: ["student", "computer"],
+  biology: "大家好，我是用户"
+})
+
+export type UpdateProfile = (
+  data: INFOMATION
+) => void
+
+function UpdateProfile(data: INFOMATION){
+  PersonnalInfo.value.avatar_url = data.avatar_url
+  PersonnalInfo.value.user_name  = data.user_name
+  PersonnalInfo.value.email_addr = data.email_addr
+  PersonnalInfo.value.location = data.location
+  PersonnalInfo.value.biology = data.biology
+}
+
 provide("ChgAddDelData", ChangeOrAddOrDeleteData)
 provide("TaskDataList", TaskDataList)
 provide("TaskDataMap", TaskDataMap)
+provide("PersonalInfo", PersonnalInfo)
+provide("UpdateProfile", UpdateProfile)
 </script>
 
 <style scoped>
