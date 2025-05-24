@@ -3,7 +3,9 @@
     <el-aside style="margin-left: 1%; margin-right: 5%;" width="auto">
       <el-card style="cursor: pointer; margin-top: 16%; border-radius: 15px;" @click="backToMainPage">
         <div style="display: flex; align-items: center; margin-left: 6%; gap: 14px; ">
-          <el-icon size="30px"><Coffee /></el-icon>
+          <el-icon size="30px">
+            <Coffee />
+          </el-icon>
           <span>Made By ZXY</span>
         </div>
       </el-card>
@@ -47,7 +49,7 @@ import { useRouter, useRoute } from 'vue-router'
 const router = useRouter()
 const route = useRoute()
 
-function backToMainPage(){
+function backToMainPage() {
   router.push("/")
 }
 
@@ -57,7 +59,7 @@ const handleSelect = (index: string) => {
   }
 }
 
-interface TaskTableInfo {
+export interface TaskTableInfo {
   name: string
   priority: "low" | "medium" | "high"
   type: string
@@ -66,7 +68,7 @@ interface TaskTableInfo {
   date: string
 }
 
-interface TaskCalendarInfo {
+export interface TaskCalendarInfo {
   name: string
   priority: "low" | "medium" | "high"
   type: string
@@ -77,18 +79,26 @@ interface TaskCalendarInfo {
 const TaskDataList = ref<TaskTableInfo[]>([
   {
     name: "示例任务",
-    priority: "low",
+    priority: "medium",
     type: "任意",
     detail: "展示一个任务有哪些字段",
     isdone: 'not-started',
     date: "2025-07-23"
+  },
+  {
+    name: "示例任务",
+    priority: "low",
+    type: "Any",
+    detail: "展示一个任务有哪些字段",
+    isdone: 'in-progress',
+    date: "2025-07-24"
   }
 ])
 
 const TaskDataMap = ref<Map<string, TaskCalendarInfo>>(new Map())
 TaskDataMap.value.set("2025-07-23", {
   name: "示例任务",
-  priority: "low",
+  priority: "medium",
   type: "Any",
   detail: "展示一个任务有哪些字段",
   isdone: 'not-started'
@@ -102,6 +112,44 @@ TaskDataMap.value.set("2025-07-24", {
   isdone: 'in-progress'
 })
 
+function ChangeOrAddOrDeleteData(
+  type: 'ch' | 'add' | 'de',
+  index: number = 0,
+  data: TaskTableInfo
+) {
+  const MapData: TaskCalendarInfo = {
+    name: data.name,
+    priority: data.priority,
+    type: data.type,
+    detail: data.detail,
+    isdone: data.isdone
+  }
+  switch (type) {
+    case 'de':
+      const delete_data = TaskDataList.value[index]
+      TaskDataMap.value.delete(delete_data.date)
+      TaskDataList.value.splice(index, 1)
+      console.log("delete date", delete_data.date)
+      return
+    case 'add':
+      TaskDataList.value.push(data)
+      TaskDataMap.value.set(data.date, MapData)
+      return
+    case 'ch':
+      TaskDataMap.value.delete(data.date)
+      TaskDataList.value[index] = data
+      TaskDataMap.value.set(data.date, MapData)
+      return
+  }
+}
+
+export type ChangeOrAddOrDeleteData = (
+  type: 'ch' | 'add' | 'de',
+  index?: number,
+  data?: TaskTableInfo
+) => void;
+
+provide("ChgAddDelData", ChangeOrAddOrDeleteData)
 provide("TaskDataList", TaskDataList)
 provide("TaskDataMap", TaskDataMap)
 </script>

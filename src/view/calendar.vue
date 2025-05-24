@@ -37,19 +37,12 @@
 import { ref, inject, type Ref } from 'vue'
 import { ElMessageBox } from 'element-plus'
 import type { CalendarDateType, CalendarInstance } from 'element-plus'
+import type { TaskCalendarInfo } from '../App.vue'
 
 const calendar = ref<CalendarInstance>()
 const selectDate = (val: CalendarDateType) => {
   if (!calendar.value) return
   calendar.value.selectDate(val)
-}
-
-interface TaskCalendarInfo {
-  name: string
-  priority: "low" | "medium" | "high"
-  type: string
-  detail: string
-  isdone: "not-started" | "in-progress" | "completed"
 }
 
 const infoMap = inject<Ref<Map<string, TaskCalendarInfo>>>("TaskDataMap")

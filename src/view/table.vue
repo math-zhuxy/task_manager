@@ -4,13 +4,8 @@
       <h1 style="font-size: xx-large;">DDL 任务汇总</h1>
     </el-header>
     <el-main>
-      <el-table 
-        :data="sortedData" 
-        style="width: 100%; font-size: large;" 
-        height="400" 
-        @cell-click="highlightColumn"
-        size="large"
-      >
+      <el-table :data="sortedData" style="width: 100%; font-size: large;" height="400" @cell-click="highlightColumn"
+        size="large">
         <el-table-column fixed prop="date" label="Date" width="150" :sortable="true" :sort-method="dateSortMethod"
           :sort-orders="['ascending', 'descending', null]" :sort-by="['date']" :order="sortOrder"
           @header-click="toggleSort" />
@@ -86,85 +81,19 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, computed } from 'vue'
+import { ref, reactive, computed, inject, type Ref } from 'vue'
 import { ElNotification } from 'element-plus'
-
-
-interface TaskTableInfo {
-  name: string
-  priority: "low" | "medium" | "high"
-  type: string
-  detail: string
-  isdone: "not-started" | "in-progress" | "completed"
-  date: string
-}
+import type { ChangeOrAddOrDeleteData, TaskTableInfo } from '../App.vue'
 
 const dialogVisible = ref(false)
 
-const tableData = ref<TaskTableInfo[]>([
-  {
-    name: 'Tom',
-    priority: 'medium',
-    type: 'Personal',
-    detail: 'Go to gym',
-    isdone: 'not-started',
-    date: '2016-05-03'
-  },
-  {
-    name: 'Tom',
-    priority: 'medium',
-    type: 'Personal',
-    detail: 'Go to gym',
-    isdone: 'not-started',
-    date: '2016-05-03'
-  },
-  {
-    name: 'Tom',
-    priority: 'medium',
-    type: 'Personal',
-    detail: 'Go to gym',
-    isdone: 'not-started',
-    date: '2016-05-03'
-  },
-  {
-    name: 'Tom',
-    priority: 'medium',
-    type: 'Personal',
-    detail: 'Go to gym',
-    isdone: 'not-started',
-    date: '2016-05-03'
-  },
-  {
-    name: 'Tom',
-    priority: 'medium',
-    type: 'Personal',
-    detail: 'Go to gym',
-    isdone: 'not-started',
-    date: '2016-05-03'
-  },
-  {
-    name: 'Tom',
-    priority: 'medium',
-    type: 'Personal',
-    detail: 'Go to gym',
-    isdone: 'not-started',
-    date: '2016-05-03'
-  },
-  {
-    name: 'Tom',
-    priority: 'medium',
-    type: 'Personal',
-    detail: 'Go to gym',
-    isdone: 'not-started',
-    date: '2016-05-03'
-  }
-])
-
+const tableData = inject<Ref<TaskTableInfo[]>>("TaskDataList")
 
 const sortOrder = ref<'ascending' | 'descending' | null>(null)
 const sortedData = computed(() => {
-  if (!sortOrder.value) return tableData.value
-  return [...tableData.value].sort((a, b) => {
+  if (!sortOrder.value) return tableData?.value ?? []
+  const data = [...(tableData?.value ?? [])]
+  return data.sort((a, b) => {
     const d1 = new Date(a.date).getTime()
     const d2 = new Date(b.date).getTime()
     return sortOrder.value === 'ascending' ? d1 - d2 : d2 - d1
@@ -191,6 +120,9 @@ const editForm = reactive<TaskTableInfo>({
 
 let editIndex = -1
 let deleteIndex = -1
+
+const ChgAddDelData = inject<ChangeOrAddOrDeleteData>("ChgAddDelData")
+
 function isValidDateFormat(dateString: string) {
   const regex = /^\d{4}-\d{2}-\d{2}$/;
   if (!regex.test(dateString)) {
@@ -225,7 +157,10 @@ function onAddRowData() {
 
 function deleteRowData() {
   dialogVisible.value = false
-  tableData.value.splice(deleteIndex, 1)
+  // tableData?.value.splice(deleteIndex, 1)
+  if (ChgAddDelData) {
+    ChgAddDelData('de', deleteIndex, editForm)
+  }
   ElNotification({
     title: 'Success',
     message: '成功删除一行数据',
@@ -245,10 +180,12 @@ function saveEdit() {
     editDialogVisible.value = false
     return
   }
-  if (editIndex !== -1) {
-    tableData.value[editIndex] = { ...editForm }
-  } else {
-    tableData.value.push({ ...editForm })
+  let task_type: 'ch' | 'add' | 'de' = "ch"
+  if (editIndex == -1) {
+    task_type = "add"
+  }
+  if (ChgAddDelData) {
+    ChgAddDelData(task_type, editIndex, editForm)
   }
   editDialogVisible.value = false
   ElNotification({
