@@ -1,19 +1,19 @@
 <template>
-  <el-container style="border: 2px solid lightgray; padding: 15px 10px; margin-top: 4%; max-width: 90%;">
+  <el-container style="border: 2px solid lightgray; padding: 15px 3px; margin-top: 4%; max-width: 90%;">
     <el-header style="text-align: center; margin-bottom: 2%;">
       <h1 style="font-size: xx-large;">DDL 任务汇总</h1>
     </el-header>
     <el-main>
       <el-table :data="sortedData" style="width: 100%; font-size: large;" height="400" @cell-click="highlightColumn"
         size="large">
-        <el-table-column fixed prop="date" label="Date" width="150" :sortable="true" :sort-method="dateSortMethod"
+        <el-table-column fixed prop="date" label="日期" width="150" :sortable="true" :sort-method="dateSortMethod"
           :sort-orders="['ascending', 'descending', null]" :sort-by="['date']" :order="sortOrder"
           @header-click="toggleSort" />
-        <el-table-column prop="name" label="Name" width="120" :class-name="getColumnClass('name')" />
-        <el-table-column prop="priority" label="Priority" width="120" :class-name="getColumnClass('priority')" />
-        <el-table-column prop="type" label="Type" width="120" :class-name="getColumnClass('type')" />
-        <el-table-column prop="detail" label="Detail" width="400" :class-name="getColumnClass('detail')" />
-        <el-table-column prop="isdone" label="Isdone" width="160" :class-name="getColumnClass('isdone')" />
+        <el-table-column prop="name" label="名称" width="120" :class-name="getColumnClass('name')" />
+        <el-table-column prop="priority" label="优先级" width="120" :class-name="getColumnClass('priority')" />
+        <el-table-column prop="type" label="种类" width="120" :class-name="getColumnClass('type')" />
+        <el-table-column prop="detail" label="具体细节" width="400" :class-name="getColumnClass('detail')" />
+        <el-table-column prop="isdone" label="完成度" width="160" :class-name="getColumnClass('isdone')" />
         <el-table-column fixed="right" label="操作" min-width="200">
           <template #default="scope">
             <el-button link type="primary" style="font-size: large;" @click="onEdit(scope.$index, scope.row)">
@@ -46,26 +46,26 @@
   </el-dialog>
   <el-dialog v-model="editDialogVisible" title="数据编辑" width="30%">
     <el-form :model="editForm">
-      <el-form-item label="Date">
-        <el-input v-model="editForm.date" />
+      <el-form-item label="日期">
+        <el-input v-model="editForm.date" placeholder="E.G: 2025-01-01"/>
       </el-form-item>
-      <el-form-item label="Name">
-        <el-input v-model="editForm.name" />
+      <el-form-item label="名称">
+        <el-input v-model="editForm.name"  maxlength="10" show-word-limit/>
       </el-form-item>
-      <el-form-item label="Priority">
+      <el-form-item label="优先级">
         <el-select v-model="editForm.priority">
           <el-option label="低" value="low" />
           <el-option label="中" value="medium" />
           <el-option label="高" value="high" />
         </el-select>
       </el-form-item>
-      <el-form-item label="Type">
-        <el-input v-model="editForm.type" />
+      <el-form-item label="种类">
+        <el-input v-model="editForm.type" maxlength="10" show-word-limit/>
       </el-form-item>
-      <el-form-item label="Detail">
-        <el-input v-model="editForm.detail" />
+      <el-form-item label="任务细节">
+        <el-input v-model="editForm.detail" clearable/>
       </el-form-item>
-      <el-form-item label="Isdone">
+      <el-form-item label="完成度">
         <el-select v-model="editForm.isdone">
           <el-option label="已完成" value="completed" />
           <el-option label="正在做" value="in-progress" />
@@ -172,9 +172,19 @@ function deleteRowData() {
 function saveEdit() {
   if (!isValidDateFormat(editForm.date)) {
     ElNotification({
-      title: 'Warning',
+      title: 'Error',
       message: "日期格式不正确",
-      type: 'warning',
+      type: 'error',
+      duration: 1000
+    })
+    editDialogVisible.value = false
+    return
+  }
+  if(editForm.detail.length === 0 || editForm.name.length === 0 || editForm.detail.length === 0) {
+    ElNotification({
+      title: 'Error',
+      message: "请将任务内容补充完整",
+      type: 'error',
       duration: 1000
     })
     editDialogVisible.value = false

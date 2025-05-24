@@ -1,7 +1,7 @@
 <template>
   <el-container>
     <el-aside style="margin-left: 1%; margin-right: 5%;" width="auto">
-      <el-card style="cursor: pointer; margin-top: 16%; border-radius: 15px;" @click="backToMainPage">
+      <el-card style="cursor: pointer; margin-top: 16%; border-radius: 15px;" @click="backToMainPage" shadow="hover">
         <div style="display: flex; align-items: center; margin-left: 6%; gap: 14px; ">
           <el-icon size="30px">
             <Coffee />
@@ -99,7 +99,7 @@ const TaskDataMap = ref<Map<string, TaskCalendarInfo>>(new Map())
 TaskDataMap.value.set("2025-07-23", {
   name: "示例任务",
   priority: "medium",
-  type: "Any",
+  type: "任意",
   detail: "展示一个任务有哪些字段",
   isdone: 'not-started'
 })
@@ -114,7 +114,7 @@ TaskDataMap.value.set("2025-07-24", {
 
 function ChangeOrAddOrDeleteData(
   type: 'ch' | 'add' | 'de',
-  index: number = 0,
+  index: number,
   data: TaskTableInfo
 ) {
   const MapData: TaskCalendarInfo = {
