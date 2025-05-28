@@ -28,7 +28,7 @@
       >
         <span class="date-number">{{ data.day.split('-')[2] }}</span>
         <div v-if="infoMap?.get(data.day)" class="task-info">
-          {{ infoMap.get(data.day)?.name }}
+          {{ infoMap.get(data.day)?.name.substring(0, 4) }}
           <br>
           优先级：{{ TranslateInfoCN(infoMap.get(data.day)?.priority, 'priority') }}
         </div>
@@ -103,6 +103,24 @@ function TranslateInfoCN(text: string | undefined, type: 'isdone' | 'priority') 
   background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
   box-shadow: 0 4px 18px 0 rgba(31, 38, 135, 0.08);
   padding: 8px;
+  height: 650px;
+  overflow-y: auto;
+}
+
+.custom-calendar .el-calendar-table {
+  max-height: 600px;
+  overflow-y: auto;
+  display: block;
+}
+
+.custom-calendar,
+.custom-calendar .el-calendar-table {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+}
+.custom-calendar::-webkit-scrollbar,
+.custom-calendar .el-calendar-table::-webkit-scrollbar {
+  display: none; /* Chrome/Safari/Webkit */
 }
 
 .calendar-header {
@@ -118,7 +136,7 @@ function TranslateInfoCN(text: string | undefined, type: 'isdone' | 'priority') 
 }
 
 .calendar-title {
-  font-size: 40px;
+  font-size: 35px;
   font-weight: 700;
   color: #3a3a3a;
   letter-spacing: 2px;
@@ -162,6 +180,9 @@ function TranslateInfoCN(text: string | undefined, type: 'isdone' | 'priority') 
   background: #fff;
   border: 1px solid transparent;
   box-shadow: 0 1px 4px rgba(31, 38, 135, 0.04);
+  min-height: 48px;
+  max-height: 72px;
+  overflow: hidden;
 }
 .date-cell:hover {
   background: #f0fdfa;
@@ -184,5 +205,10 @@ function TranslateInfoCN(text: string | undefined, type: 'isdone' | 'priority') 
 .task-info {
   color: #4a4e69;
   font-size: 12px;
+}
+
+/* 兼容不同月份行数，表格行高度自适应 */
+.custom-calendar .el-calendar-table tr {
+  height: auto !important;
 }
 </style>

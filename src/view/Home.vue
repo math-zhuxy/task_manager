@@ -31,11 +31,11 @@ const TextContent = [
     },
     {
         head: "Calendar",
-        content: "任务日历，将任务列表的任务按照日历的方式呈现，（目前demo还有点bug，尽量不要让多个任务在同一个日期中）"
+        content: "任务日历，将任务列表的任务按照日历的方式呈现，目前demo还有点bug，尽量不要让多个任务在同一个日期中"
     },
     {
         head: "Setting",
-        content: "个人简介以及设置"
+        content: "个人简介以及设置，目前页面全是个人简介"
     }
 ]
 </script>

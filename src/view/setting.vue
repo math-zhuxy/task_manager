@@ -1,63 +1,59 @@
 <template>
-  <el-descriptions title="简介" direction="vertical" border size="large" style="margin-top: 20px; max-width: 90%;">
-    <el-descriptions-item :rowspan="2" :width="140" label="头像" align="center">
-      <el-avatar :size="120" :src="PersonalInfo?.avatar_url" />
-    </el-descriptions-item>
-    <el-descriptions-item label="用户名">{{ PersonalInfo?.user_name }}</el-descriptions-item>
-    <el-descriptions-item label="邮箱地址">{{ PersonalInfo?.email_addr }}</el-descriptions-item>
-    <el-descriptions-item label="所在地">{{ PersonalInfo?.location }}</el-descriptions-item>
-    <el-descriptions-item label="标签">
-      <div style="display: flex; gap: 10px; align-items: center;">
-        <!-- <div>
-          <el-tag size="medium">School</el-tag>
+  <div style="margin-top: 20px; max-width: 90%;border: 2px solid gray; padding: 10px; border-radius: 10px; background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);">
+    <h1 style="text-align: center;">简介</h1>
+    <el-descriptions direction="vertical" border size="large">
+      <el-descriptions-item :rowspan="2" :width="140" label="头像" align="center">
+        <el-avatar :size="120" :src="PersonalInfo?.avatar_url" />
+      </el-descriptions-item>
+      <el-descriptions-item label="用户名">{{ PersonalInfo?.user_name }}</el-descriptions-item>
+      <el-descriptions-item label="邮箱地址">{{ PersonalInfo?.email_addr }}</el-descriptions-item>
+      <el-descriptions-item label="所在地">{{ PersonalInfo?.location }}</el-descriptions-item>
+      <el-descriptions-item label="标签">
+        <div style="display: flex; gap: 10px; align-items: center;">
+          <div v-for="tag in PersonalInfo?.tags">
+            <el-tag size="medium">{{ tag }}</el-tag>
+          </div>
         </div>
-        <div>
-          <el-tag size="medium">Computer</el-tag>
-        </div> -->
-        <div v-for="tag in PersonalInfo?.tags">
-          <el-tag size="medium">{{ tag }}</el-tag>
-        </div>
+      </el-descriptions-item>
+      <el-descriptions-item label="编辑">
+        <el-button type="info" icon="Edit" round @click="onAddRowData">
+          编辑个人信息
+        </el-button>
+      </el-descriptions-item>
+      <el-descriptions-item label="个人简介">
+        {{ PersonalInfo?.biology }}
+      </el-descriptions-item>
+    </el-descriptions>
+    <div
+      style="display: flex; text-align: center; gap: 50px; justify-content: center; max-width: 90%; ">
+      <div>
+        <p>已完成任务比例：</p>
+        <el-progress type="dashboard" :percentage="DonePercentage" stroke-width="10" color="#2ECC71">
+          <template #default="{ percentage }">
+            <span class="percentage-value">{{ percentage }}%</span>
+            <span class="percentage-label">已完成</span>
+          </template>
+        </el-progress>
       </div>
-    </el-descriptions-item>
-    <el-descriptions-item label="编辑">
-      <el-button type="info" icon="Edit" round @click="onAddRowData">
-        编辑个人信息
-      </el-button>
-    </el-descriptions-item>
-    <el-descriptions-item label="个人简介">
-      {{ PersonalInfo?.biology }}
-    </el-descriptions-item>
-  </el-descriptions>
-  <br>
-  <div style="display: flex; text-align: center; gap: 50px;">
-
-    <div>
-      <p>已完成任务比例：</p>
-      <el-progress type="dashboard" :percentage="DonePercentage" stroke-width="10" color="#2ECC71">
-        <template #default="{ percentage }">
-          <span class="percentage-value">{{ percentage }}%</span>
-          <span class="percentage-label">已完成</span>
-        </template>
-      </el-progress>
-    </div>
-    <div>
-      <p>正在做任务比例：</p>
-      <el-progress type="dashboard" :percentage="InProgressPercentage" stroke-width="10" color="#3498DB">
-        <template #default="{ percentage }">
-          <span class="percentage-value">{{ percentage }}%</span>
-          <span class="percentage-label">正在做</span>
-        </template>
-      </el-progress>
-    </div>
-    <div>
-      <p>未完成任务比例：</p>
-      <el-progress type="dashboard" :percentage="100 - DonePercentage - InProgressPercentage" stroke-width="10"
-        color="#FF4757">
-        <template #default="{ percentage }">
-          <span class="percentage-value">{{ percentage }}%</span>
-          <span class="percentage-label">未完成</span>
-        </template>
-      </el-progress>
+      <div>
+        <p>正在做任务比例：</p>
+        <el-progress type="dashboard" :percentage="InProgressPercentage" stroke-width="10" color="#3498DB">
+          <template #default="{ percentage }">
+            <span class="percentage-value">{{ percentage }}%</span>
+            <span class="percentage-label">正在做</span>
+          </template>
+        </el-progress>
+      </div>
+      <div>
+        <p>未完成任务比例：</p>
+        <el-progress type="dashboard" :percentage="100 - DonePercentage - InProgressPercentage" stroke-width="10"
+          color="#FF4757">
+          <template #default="{ percentage }">
+            <span class="percentage-value">{{ percentage }}%</span>
+            <span class="percentage-label">未完成</span>
+          </template>
+        </el-progress>
+      </div>
     </div>
   </div>
   <br>
@@ -157,6 +153,10 @@ function isValidEmail(email: string): boolean {
   return emailRegex.test(email);
 }
 
+function isValidAvatorLink(str: string): boolean{
+  return /^(https?:\/\/)/.test(str);
+}
+
 function saveEdit() {
   editDialogVisible.value = false
   if (!isValidEmail(editForm.email_addr)) {
@@ -164,7 +164,16 @@ function saveEdit() {
       title: 'Error',
       message: '邮箱格式错误',
       type: 'error',
-      duration: 1000
+      duration: 1500
+    })
+    return
+  }
+  if (!isValidAvatorLink(editForm.avatar_url)) {
+    ElNotification({
+      title: 'Error',
+      message: '链接应该以http或https开头',
+      type: 'error',
+      duration: 1500
     })
     return
   }
@@ -174,7 +183,7 @@ function saveEdit() {
       title: 'Success',
       message: '修改个人信息成功',
       type: 'success',
-      duration: 1000
+      duration: 1500
     })
   }
 }
