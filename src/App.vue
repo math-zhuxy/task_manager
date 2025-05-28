@@ -8,7 +8,7 @@
           </el-icon>
           <span>Made By ZXY</span>
           <span style="display: flex; align-items: center;">
-            <el-tooltip content="更多内容请查看https://github.com/math-zhuxy" placement="right" width="200">
+            <el-tooltip content="更多内容请查看: https://github.com/math-zhuxy" placement="right" width="200">
               <el-icon size="25px">
                 <Warning />
               </el-icon>
