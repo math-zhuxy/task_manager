@@ -1,5 +1,5 @@
 <template>
-  <div style="margin-top: 20px; max-width: 90%;border: 2px solid gray; padding: 10px; border-radius: 10px; background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);">
+  <div style="margin-top: 20px; max-width: 90%; padding: 10px; border-radius: 10px; background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);">
     <h1 style="text-align: center;">简介</h1>
     <el-descriptions direction="vertical" border size="large">
       <el-descriptions-item :rowspan="2" :width="140" label="头像" align="center">

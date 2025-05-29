@@ -44,17 +44,39 @@
         </el-menu-item>
       </el-menu>
     </el-aside>
-    <el-main>
-      <router-view />
+    <el-main v-loading="loading" element-loading-text="页面加载中...">
+      <router-view @vue:beforeMount="startLoading" @vue:mounted="endLoading" />
     </el-main>
   </el-container>
 </template>
 
 <script lang="ts" setup>
-import { provide, ref } from 'vue'
+import { provide, ref, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 const router = useRouter()
 const route = useRoute()
+
+const loading = ref(false)
+// 记录已访问过的路由路径
+const visitedRoutes = ref<Set<string>>(new Set())
+
+function startLoading() {
+  loading.value = true
+}
+function endLoading() {
+  loading.value = false
+}
+
+// 路由切换时显示loading（仅首次进入该路由时）
+watch(() => route.fullPath, (newPath) => {
+  if (!visitedRoutes.value.has(newPath)) {
+    startLoading()
+    setTimeout(() => {
+      endLoading()
+      visitedRoutes.value.add(newPath)
+    }, 500) // 可根据实际加载速度调整时间
+  }
+})
 
 function backToMainPage() {
   router.push("/")
