@@ -16,6 +16,10 @@
 
 # 快速开始
 ```
+git clone git@github.com:math-zhuxy/task_manager.git
+```
+
+```
 npm install
 ```
 
